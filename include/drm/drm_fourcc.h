@@ -26,6 +26,10 @@
 
 #include "drm.h"
 
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
 #define fourcc_code(a, b, c, d) ((__u32)(a) | ((__u32)(b) << 8) | \
 				 ((__u32)(c) << 16) | ((__u32)(d) << 24))
 
@@ -228,5 +232,24 @@
  * For more information: see https://linuxtv.org/downloads/v4l-dvb-apis/re32.html
  */
 #define DRM_FORMAT_MOD_SAMSUNG_64_32_TILE	fourcc_mod_code(SAMSUNG, 1)
+
+
+/* NVIDIA Frame buffer modifiers */
+
+#define NV_FORMAT_MOD_TEGRA_SHIFT	32
+
+#define NV_FORMAT_MOD_TEGRA_TILED \
+	fourcc_mod_code(NV, 1ULL << NV_FORMAT_MOD_TEGRA_SHIFT)
+
+#define NV_FORMAT_MOD_TEGRA_BLOCK_MASK \
+	fourcc_mod_code(NV, 2ULL << NV_FORMAT_MOD_TEGRA_SHIFT)
+#define NV_FORMAT_MOD_TEGRA_BLOCK_VALUE(m) \
+	(m & ((1ULL << NV_FORMAT_MOD_TEGRA_SHIFT) - 1))
+#define NV_FORMAT_MOD_TEGRA_BLOCK(v) \
+	(NV_FORMAT_MOD_TEGRA_BLOCK_MASK | NV_FORMAT_MOD_TEGRA_BLOCK_VALUE(v))
+
+#if defined(__cplusplus)
+}
+#endif
 
 #endif /* DRM_FOURCC_H */
